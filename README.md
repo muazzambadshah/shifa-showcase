@@ -29,6 +29,20 @@ Millions of Pakistanis describe their health problems best in Urdu, Punjabi or R
    - The doctor reviews the case, can adjust the triage, and writes a note.
    - The patient sees the doctor's reply on their private link.
 
+6. **Open health discussion.** Patients can discuss **any** health concern, before or after triage. The offline knowledge base covers **52 topics**, including:
+   - long-term conditions: diabetes, BP, heart, thyroid, anaemia, thalassaemia, hepatitis, kidney stones
+   - infections common in Pakistan: typhoid, dengue, malaria, TB
+   - breathing: asthma and allergies
+   - mother and child: pregnancy, periods, PCOS, child fever and diarrhoea, vaccines
+   - mental health: depression, anxiety, sleep
+   - lifestyle: quitting smoking and naswar, weight
+   - first aid and emergencies: heatstroke, snake and dog bites, burns, stroke, epilepsy
+   - and more
+
+   For each topic it answers the specific question asked (diet, causes, home care, tests, which specialist, prevention), keeps the conversation's context for follow-ups, and always lists warning signs. Requests for medicine doses are politely declined.
+
+   **Claude mode** holds a free, in-depth conversation grounded in the same verified notes. New symptoms mentioned mid-discussion **re-trigger triage**, which can only escalate.
+
 ## Safety & privacy engineering
 
 - **Defence in depth:** red flags are checked with rules before the LLM runs, the triage floor is enforced after it, and the LLM's structured output is validated against fixed ids. If Claude fails, the app falls back to the rule-based interview.
@@ -36,7 +50,7 @@ Millions of Pakistanis describe their health problems best in Urdu, Punjabi or R
 - **Voice never reaches the server.** Speech recognition runs in the browser, and the app sets `Permissions-Policy: microphone=(self)`.
 - **Anonymous patients.** No account and no name are needed; each patient gets an unguessable consultation link. Only doctors can see the queue.
 - **Other protections:** rate limits, a message cap, CSRF protection and strict security headers.
-- **Tests:** 26 tests covering:
+- **Tests:** 39 tests covering:
   - trilingual symptom extraction and answer parsing (Urdu digits, °C → °F)
   - 5 red-flag scenarios
   - the dengue, child-dehydration and headache flows
@@ -51,6 +65,10 @@ Millions of Pakistanis describe their health problems best in Urdu, Punjabi or R
 | Doctor triage queue | SOAP note & transcript |
 |---|---|
 | ![](screenshots/05-doctor-queue.png) | ![](screenshots/06-soap-case.png) |
+
+| Health discussion (any topic) | Follow-up → re-triage |
+|---|---|
+| ![](screenshots/07-health-discussion.png) | ![](screenshots/08-followup-escalation.png) |
 
 ## Architecture
 
